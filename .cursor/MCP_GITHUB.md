@@ -27,6 +27,62 @@ Sustituye `tu_token_aqui` por el token que generaste.
 2. El servidor **github** debería aparecer en **Settings** → **Features** → **MCP**.
 3. En el chat con el Agente podrás pedir cosas como: crear repos, issues, PRs, buscar código, etc.
 
+### ⚠️ Importante en macOS
+
+Si abres Cursor desde el Dock o Spotlight, **no verá** la variable que definiste en la terminal (`.zshrc`). Tienes dos opciones:
+
+**Opción A – Abrir Cursor desde la terminal** (recomendado para que cargue el token):
+
+```bash
+cd "/Users/leomorales/Library/Mobile Documents/com~apple~CloudDocs/ProyectosPortafolio/Java/TaskProyect/task"
+export GITHUB_PERSONAL_ACCESS_TOKEN="tu_token"
+cursor .
+# o: open -a Cursor .
+```
+
+**Opción B – Script que carga el token y abre Cursor:**
+
+1. Crea un archivo **`.env`** en la raíz del proyecto (está en `.gitignore`) con una sola línea:
+   ```bash
+   GITHUB_PERSONAL_ACCESS_TOKEN=ghp_tu_token_aqui
+   ```
+2. En la terminal, desde la carpeta del proyecto:
+   ```bash
+   chmod +x cursor-con-github.sh
+   ./cursor-con-github.sh
+   ```
+   Así Cursor se abre con el token ya cargado.
+
+---
+
+## Cómo validar que el token está cargando
+
+### 1. Comprobar la variable en la terminal
+
+En la **misma terminal** desde la que vas a abrir Cursor (o donde hiciste `export`):
+
+```bash
+# No imprimas el token en pantalla; solo comprueba que está definido
+[ -n "$GITHUB_PERSONAL_ACCESS_TOKEN" ] && echo "Token definido (longitud: ${#GITHUB_PERSONAL_ACCESS_TOKEN})" || echo "Token NO definido"
+```
+
+Si ves "Token definido" y un número de longitud, en esa shell el token está cargado.
+
+### 2. Comprobar el MCP en Cursor
+
+1. Abre **Cursor Settings** (⌘ + ,) → **Features** → **MCP**.
+2. Deberías ver el servidor **"github"** en la lista.
+3. Si aparece en verde / "Connected" o sin error, el servidor está cargando. Si ves error de autenticación, el token no está llegando o es incorrecto.
+
+### 3. Probar con el Agente
+
+En el chat del Agente (Composer), escribe por ejemplo:
+
+- *"¿Qué repositorios tengo en GitHub?"*  
+- *"Dame mi perfil de GitHub"*
+
+Si el MCP responde con tus datos, el token se está usando correctamente. Si pide autenticación o falla, revisa que hayas abierto Cursor desde la terminal con `export GITHUB_PERSONAL_ACCESS_TOKEN` ya definido (o que uses el script de abajo).
+
 ---
 
 ## 2. Subir este proyecto a GitHub (con Git)
