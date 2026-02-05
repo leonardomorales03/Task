@@ -12,16 +12,17 @@
 ## 📑 Tabla de Contenidos
 
 1. [Descripción Detallada](#-descripción-detallada)
-2. [Tecnologías Utilizadas](#-tecnologías-utilizadas)
-3. [Requisitos Previos](#-requisitos-previos)
-4. [Instalación y Configuración](#-instalación-y-configuración)
-5. [Base de Datos](#-configuración-de-la-base-de-datos)
-6. [Documentación de la API](#-documentación-de-endpoints-api)
-7. [Guía de Pruebas](#-guía-de-pruebas)
-8. [Variables de Entorno](#-variables-de-entorno)
-9. [Solución de Problemas](#-solución-de-problemas-comunes)
-10. [Contribución](#-contribución)
-11. [Licencia y Autores](#-licencia-y-autores)
+2. [Interfaz Gráfica Web](#-interfaz-gráfica-web)
+3. [Tecnologías Utilizadas](#-tecnologías-utilizadas)
+4. [Requisitos Previos](#-requisitos-previos)
+5. [Instalación y Configuración](#-instalación-y-configuración)
+6. [Base de Datos](#-configuración-de-la-base-de-datos)
+7. [Documentación de la API](#-documentación-de-endpoints-api)
+8. [Guía de Pruebas](#-guía-de-pruebas)
+9. [Variables de Entorno](#-variables-de-entorno)
+10. [Solución de Problemas](#-solución-de-problemas-comunes)
+11. [Contribución](#-contribución)
+12. [Licencia y Autores](#-licencia-y-autores)
 
 ---
 
@@ -35,6 +36,77 @@ El proyecto sigue el patrón de diseño **Controller-Service-Repository**:
 - **Service Layer (`com.task.service`)**: Encapsula la lógica de negocio y validaciones.
 - **Repository Layer (`com.task.repository`)**: Abstracción de acceso a datos utilizando Spring Data JPA.
 - **Model Layer (`com.task.model`)**: Entidades JPA que representan la estructura de datos.
+
+---
+
+## 🎨 Interfaz Gráfica Web
+
+Además de la API REST, el proyecto incluye una **interfaz web moderna y responsive** llamada **TaskFlow** que permite gestionar tareas de forma visual e intuitiva.
+
+### Acceso a la Interfaz
+
+Una vez iniciada la aplicación, accede a la interfaz web en:
+
+```
+http://localhost:8080
+```
+
+### Características Principales
+
+#### 📊 Dashboard Interactivo
+
+El tablero principal muestra estadísticas en tiempo real:
+- **Total de Tareas**: Contador de todas las tareas creadas
+- **Tareas Completadas**: Número de tareas finalizadas
+- **Tareas Pendientes**: Tareas por completar
+
+![Dashboard Principal](docs/images/ui_main_dashboard.png)
+
+#### ➕ Crear Nuevas Tareas
+
+Interfaz modal para agregar tareas con:
+- **Título**: Nombre descriptivo de la tarea
+- **Descripción**: Detalles adicionales
+- **Prioridad**: Niveles de prioridad (LOW, MEDIUM, HIGH)
+- **Estado**: Pendiente o Completada
+
+![Formulario de Creación](docs/images/ui_add_task_form.png)
+
+#### 📋 Visualización de Tareas
+
+Las tareas se muestran como tarjetas interactivas con:
+- Indicador visual de estado (círculo toggle)
+- Etiqueta de prioridad con código de colores
+- Menú de opciones (editar/eliminar)
+- Descripción completa
+
+![Lista de Tareas](docs/images/ui_task_list.png)
+
+#### ✅ Cambio de Estado
+
+Toggle rápido para marcar tareas como completadas/pendientes con actualización visual inmediata.
+
+![Toggle de Estado](docs/images/ui_status_toggle.png)
+
+#### ✏️ Editar Tareas
+
+Modal de edición que permite modificar todos los campos de una tarea existente.
+
+![Editar Tarea](docs/images/ui_edit_task.png)
+
+#### 🗑️ Eliminar Tareas
+
+Función de eliminación rápida desde el menú de opciones de cada tarea.
+
+![Eliminar Tarea](docs/images/ui_delete_task.png)
+
+### Tecnologías de la Interfaz
+
+- **Frontend**: HTML5, CSS3, JavaScript (Vanilla)
+- **Motor de Plantillas**: Thymeleaf
+- **Diseño**: Responsive con sidebar navigation
+- **Estilo**: Sistema de diseño moderno con paleta de colores profesional
+- **Interactividad**: Modales, toasts de notificación, animaciones suaves
 
 ---
 
