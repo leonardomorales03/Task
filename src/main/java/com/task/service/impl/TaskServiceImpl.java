@@ -33,6 +33,9 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @Transactional
     public Task create(Task task) {
+        if (task.getCompleted() == null) {
+            task.setCompleted(false);
+        }
         return taskRepository.save(task);
     }
 
@@ -40,6 +43,9 @@ public class TaskServiceImpl implements TaskService {
     @Transactional
     public Task update(Long id, Task task) {
         task.setId(id);
+        if (task.getCompleted() == null) {
+            task.setCompleted(false);
+        }
         return taskRepository.save(task);
     }
 
