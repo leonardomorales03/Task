@@ -3,7 +3,7 @@ services:
     name: task-flow
     env: docker
     plan: free
-    branch: feature/ui-transformation-taskflow
+    branch: feature/update-readme-ui-documentation
     envVars:
       - key: PORT
         value: 8080
