@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: task-flow
+    env: docker
+    plan: free
+    branch: feature/update-readme-ui-documentation
+    envVars:
+      - key: PORT
+        value: 8080

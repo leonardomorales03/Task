@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow | Gestión de Tareas Inteligente</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="logo">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <h1>TaskFlow</h1>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-view="dashboard">
+                    <i class="fas fa-columns"></i>
+                    <span>Tablero</span>
+                </a>
+                <a href="#" class="nav-item" data-view="list">
+                    <i class="fas fa-list-check"></i>
+                    <span>Mis Tareas</span>
+                    <span class="badge" id="pending-count">0</span>
+                </a>
+                <a href="#" class="nav-item" data-view="analytics">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Reportes</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="#" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Configuración</span>
+                </a>
+                <div class="user-profile">
+                    <div class="avatar">LM</div>
+                    <div class="user-info">
+                        <span class="name">Leo Morales</span>
+                        <span class="role">Admin</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Buscar tareas, etiquetas...">
+                </div>
+                
+                <div class="top-actions">
+                    <button class="icon-btn" aria-label="Notificaciones">
+                        <i class="far fa-bell"></i>
+                        <span class="notification-dot"></span>
+                    </button>
+                    <button class="icon-btn" aria-label="Ayuda" id="help-btn">
+                        <i class="far fa-question-circle"></i>
+                    </button>
+                    <button class="btn btn-primary" id="create-task-btn">
+                        <i class="fas fa-plus"></i>
+                        <span>Nueva Tarea</span>
+                    </button>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <div class="page-header">
+                    <div>
+                        <h2 id="page-title">Tablero Principal</h2>
+                        <p class="text-muted">Gestiona tus proyectos y prioridades</p>
+                    </div>
+                    <div class="view-toggles">
+                        <button class="toggle-btn active" data-layout="grid"><i class="fas fa-th-large"></i></button>
+                        <button class="toggle-btn" data-layout="list"><i class="fas fa-list"></i></button>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon bg-blue-light text-blue">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Tareas</span>
+                            <span class="stat-value" id="total-tasks">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon bg-green-light text-green">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">Completadas</span>
+                            <span class="stat-value" id="completed-tasks">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon bg-orange-light text-orange">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">Pendientes</span>
+                            <span class="stat-value" id="active-tasks">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Task Board -->
+                <div class="tasks-container" id="tasks-container">
+                    <!-- Tasks will be injected here -->
+                    <div class="loading-state">
+                        <div class="spinner"></div>
+                        <p>Cargando tus tareas...</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Create/Edit Modal -->
+    <div class="modal-overlay" id="task-modal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 id="modal-title">Nueva Tarea</h3>
+                <button class="close-btn" id="close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="task-form">
+                    <input type="hidden" id="task-id">
+                    <div class="form-group">
+                        <label for="task-title">Título</label>
+                        <input type="text" id="task-title" placeholder="¿Qué necesitas hacer?" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label for="task-desc">Descripción</label>
+                        <textarea id="task-desc" rows="3" placeholder="Detalles adicionales..."></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Prioridad</label>
+                            <div class="select-wrapper">
+                                <select id="task-priority">
+                                    <option value="low">Baja</option>
+                                    <option value="medium" selected>Media</option>
+                                    <option value="high">Alta</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group checkbox-group">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="task-completed">
+                                <span class="checkmark"></span>
+                                Marcar como completada
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-text" id="cancel-modal">Cancelar</button>
+                <button class="btn btn-primary" id="save-task-btn">Guardar Tarea</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script th:src="@{/js/app.js}"></script>
+</body>
+</html>
